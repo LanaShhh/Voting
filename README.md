@@ -39,7 +39,7 @@
 - Как кардинал, я хочу получить результаты опроса по его завершении на почту.
 
 ## UML-диаграмма классов
-![uml](https://github.com/LanaShhh/Voting/blob/main/img/uml.png)
+![uml](https://github.com/LanaShhh/Voting/blob/main/img/uml3.png)
 
 ## CRC карточки
 ![crc](https://github.com/LanaShhh/Voting/blob/main/img/crc.jpg)
