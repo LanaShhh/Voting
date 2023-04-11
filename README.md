@@ -38,8 +38,8 @@
 - Как кардинал, я могу проголосовать в опросе.
 - Как кардинал, я хочу получить результаты опроса по его завершении на почту.
 
-## UML-диаграмма классов(первый вариант)
+## UML-диаграмма классов
 ![uml](https://github.com/LanaShhh/Voting/blob/main/img/uml.png)
 
-## CRC карточки первый вариант
+## CRC карточки
 ![crc](https://github.com/LanaShhh/Voting/blob/main/img/crc.jpg)
