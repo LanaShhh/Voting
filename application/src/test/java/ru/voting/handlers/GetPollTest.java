@@ -44,10 +44,9 @@ public class GetPollTest {
                 ),
                 "Be or not to be?",
                 Map.of("be", 0,
-                        "do not be", 1),
+                        "do not be", 0),
                 Arrays.asList("a@b.ru", "c@d.ru"),
-                0,
-                Arrays.asList(0, 0)
+                0
         );
 
         when(polls.containsKey(eq("unique_id"))).thenReturn(true);
