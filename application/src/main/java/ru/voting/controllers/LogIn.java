@@ -20,7 +20,7 @@ public class LogIn {
             value = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public ResponseEntity<String> register(@RequestBody User user) {
+    public ResponseEntity<String> logIn(@RequestBody User user) {
         if (!users.containsKey(user.getEmail())) {
             return new ResponseEntity<>("This email is not registered", HttpStatus.BAD_REQUEST);
         }
