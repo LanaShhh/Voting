@@ -2,6 +2,7 @@ package ru.voting.handlers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
 import ru.voting.common.ParticipantPassword;
 import ru.voting.common.Poll;
 import org.springframework.http.HttpStatus;
@@ -27,6 +28,9 @@ public class CreatePoll {
     private Map<String, Poll> polls;
 
     @Autowired
+    private Map<String, User> users;
+
+    @Autowired
     private Map<String, List<String>> usersPolls;
 
     @Autowired
@@ -36,11 +40,17 @@ public class CreatePoll {
             value = "/create_poll",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public Boolean createPoll(@RequestParam Poll newPoll) {
+    public ResponseEntity<String> createPoll(@RequestBody Poll newPoll) {
+        String creator_email = newPoll.getCreator().getEmail();
+        if (!users.containsKey(creator_email)) {
+            return new ResponseEntity<>(
+                    "Only registered users can create polls",
+                    HttpStatus.NOT_FOUND
+            );
+        }
+
         String newPollId = newPoll.getId();
         polls.put(newPollId, newPoll);
-
-        String creator_email = newPoll.getCreator().getEmail();
         usersPolls.get(creator_email).add(newPollId);
 
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij" +
@@ -48,7 +58,7 @@ public class CreatePoll {
                 "#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
         for (String participantEmail : newPoll.getParticipants()) {
             String password = RandomStringUtils.random(12, characters);
-            while (!participantPasswords.containsKey(password)) {
+            while (participantPasswords.containsKey(password)) {
                 password = RandomStringUtils.random(12, characters);
             }
             ParticipantPassword parPass = new ParticipantPassword(password,
@@ -57,6 +67,9 @@ public class CreatePoll {
             emailService.sendMessages(participantEmail, parPass);
         }
 
-        return true;
+        return new ResponseEntity<>(
+                "Poll was created successfully",
+                HttpStatus.OK
+        );
     }
 }

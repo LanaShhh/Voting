@@ -13,10 +13,11 @@ public class EmailService {
     private String service_email;
 
     private boolean sendEmail(Pair<String, String> email) {
-        throw new RuntimeException("Not implemented");
+        return true;
     }
 
     public void sendMessages(String email, ParticipantPassword parPass) {
-        throw new RuntimeException("Not implemented");
+        System.out.println("email service got request:");
+        System.out.println(email + " " + parPass.getPassword());
     }
 }

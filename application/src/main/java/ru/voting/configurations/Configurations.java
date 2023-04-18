@@ -11,7 +11,7 @@ import java.util.*;
 
 @Configuration
 public class Configurations {
-    @Bean(name = "emailService")
+    @Bean
     public EmailService getEmailService() {
         return new EmailService();
     }
@@ -22,7 +22,7 @@ public class Configurations {
     }
 
     @Bean(name = "users")
-    public Set<User> getUsers() { return new HashSet<>(); }
+    public Map<String, User> getUsers() { return new HashMap<>(); }
 
     @Bean(name = "usersPolls")
     public Map<String, List<String>> getUsersPolls() { return new HashMap<>(); }
