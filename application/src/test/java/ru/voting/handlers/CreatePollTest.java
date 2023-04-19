@@ -43,7 +43,7 @@ public class CreatePollTest {
     Map<String, User> users;
 
     @MockBean
-    Map<String, List<String>> usersPolls;
+    Map<String, Set<String>> usersPolls;
 
     @MockBean
     Map<String, ParticipantPassword> participantPasswords;
@@ -64,7 +64,7 @@ public class CreatePollTest {
         );
 
         when(users.containsKey(eq("e@mail.ru"))).thenReturn(true);
-        when(usersPolls.get("e@mail.ru")).thenReturn(new ArrayList<>());
+        when(usersPolls.get("e@mail.ru")).thenReturn(new HashSet<>());
 
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);

@@ -12,10 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.voting.common.Poll;
 import ru.voting.common.User;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -38,7 +35,7 @@ public class GetInfoTest {
     Map<String, User> users;
 
     @MockBean
-    Map<String, List<String>> usersPolls;
+    Map<String, Set<String>> usersPolls;
 
     @Test
     void testGetInfo() throws Exception {
@@ -70,7 +67,7 @@ public class GetInfoTest {
         when(polls.get(eq("id_1"))).thenReturn(poll1);
         when(polls.get(eq("id_2"))).thenReturn(poll2);
         when(usersPolls.get(eq("e@mail.ru"))).thenReturn(
-                Arrays.asList("id_1", "id_2")
+                Set.of("id_1", "id_2")
         );
 
         mockMvc.perform(get("/get_info?email=e@mail.ru"))

@@ -31,10 +31,14 @@ public class CreatePoll {
     private Map<String, User> users;
 
     @Autowired
-    private Map<String, List<String>> usersPolls;
+    private Map<String, Set<String>> usersPolls;
 
     @Autowired
     private Map<String, ParticipantPassword> participantPasswords;
+
+    final String PASSWORD_CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij" +
+            "klmnopqrstuvwxyz0123456789~`!@" +
+            "#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
 
     @PostMapping(
             value = "/create_poll",
@@ -53,13 +57,10 @@ public class CreatePoll {
         polls.put(newPollId, newPoll);
         usersPolls.get(creator_email).add(newPollId);
 
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij" +
-                "klmnopqrstuvwxyz0123456789~`!@" +
-                "#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
         for (String participantEmail : newPoll.getParticipants()) {
-            String password = RandomStringUtils.random(12, characters);
+            String password = RandomStringUtils.random(12, PASSWORD_CHARACTERS);
             while (participantPasswords.containsKey(password)) {
-                password = RandomStringUtils.random(12, characters);
+                password = RandomStringUtils.random(12, PASSWORD_CHARACTERS);
             }
             ParticipantPassword parPass = new ParticipantPassword(password,
                     false, newPollId);

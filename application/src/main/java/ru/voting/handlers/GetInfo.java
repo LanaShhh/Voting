@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import ru.voting.common.Poll;
 import ru.voting.common.User;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class GetInfo {
@@ -23,7 +20,7 @@ public class GetInfo {
     private Map<String, User> users;
 
     @Autowired
-    private Map<String, List<String>> usersPolls;
+    private Map<String, Set<String>> usersPolls;
 
     @GetMapping("/get_info")
     public ResponseEntity<String> getInfo(@RequestParam String email) {

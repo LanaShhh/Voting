@@ -25,7 +25,7 @@ public class Configurations {
     public Map<String, User> getUsers() { return new HashMap<>(); }
 
     @Bean(name = "usersPolls")
-    public Map<String, List<String>> getUsersPolls() { return new HashMap<>(); }
+    public Map<String, Set<String>> getUsersPolls() { return new HashMap<>(); }
 
     @Bean(name = "participantPasswords")
     public Map<String, ParticipantPassword> getParticipantPasswords() {
