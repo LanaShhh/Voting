@@ -51,8 +51,11 @@ public class CreatePoll {
             while (!participantPasswords.containsKey(password)) {
                 password = RandomStringUtils.random(12, characters);
             }
-            ParticipantPassword parPass = new ParticipantPassword(password,
-                    false, newPollId);
+            ParticipantPassword parPass = new ParticipantPassword(
+                    password,
+                    participantEmail,
+                    false,
+                    newPollId);
             participantPasswords.put(password, parPass);
             emailService.sendMessages(participantEmail, parPass);
         }
