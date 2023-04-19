@@ -2,6 +2,7 @@ package ru.voting.emails;
 
 import ch.qos.logback.core.joran.sanity.Pair;
 import org.springframework.stereotype.Service;
+import ru.voting.common.ParticipantPassword;
 import ru.voting.common.Poll;
 
 import java.util.Queue;
@@ -12,10 +13,11 @@ public class EmailService {
     private String service_email;
 
     private boolean sendEmail(Pair<String, String> email) {
-        throw new RuntimeException("Not implemented");
+        return true;
     }
 
-    public void sendMessages(Poll poll) {
-        throw new RuntimeException("Not implemented");
+    public void sendMessages(String email, ParticipantPassword parPass) {
+        System.out.println("email service got request:");
+        System.out.println(email + " " + parPass.getPassword());
     }
 }
