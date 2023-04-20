@@ -28,12 +28,12 @@ public class Poll {
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name = "poll_id")
-    @Getter
+    @Getter @Setter
     private List<PollAnswer> answers;
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name = "poll_id")
-    @Getter
+    @Getter @Setter
     private List<Participant> participants;
 
     @Column(name = "answer_counter", nullable = false)

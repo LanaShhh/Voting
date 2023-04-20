@@ -16,7 +16,4 @@ public class Configurations {
     public EmailService getEmailService() {
         return new EmailService();
     }
-
-    @Bean(name = "database")
-    public DatabaseService getDatabase() { return new DatabaseService(); }
 }
