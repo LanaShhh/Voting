@@ -1,11 +1,9 @@
 spring.profiles.default=dev
 
-hibernate.connection.driver_class=org.postgresql.Driver
-hibernate.connection.url=jdbc:postgresql://localhost:5432/voting
-hibernate.connection.username=voting
-hibernate.connection.password=voting
-hibernate.show_sql=true
-hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
-hibernate.current_session_context_class=thread
-hibernate.hbm2ddl.auto=update
-hibernate.connection.pool_size=100
+spring.datasource.url=jdbc:postgresql://localhost:5432/voting
+spring.datasource.username=postgres
+spring.datasource.password=postgres
+spring.datasource.driver-class-name=org.postgresql.Driver
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
