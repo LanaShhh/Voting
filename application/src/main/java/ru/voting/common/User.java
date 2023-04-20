@@ -24,6 +24,6 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
     @JoinColumn(name = "creator_email")
-    @Getter
+    @Getter @Setter
     private List<Poll> polls;
 }

@@ -1,4 +1,4 @@
-package ru.voting.handlers;
+package ru.voting.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -24,7 +24,7 @@ public class CreatePollController {
     private IdGenerator idGenerator;
 
     @Autowired
-    private DatabaseService database;
+    private DatabaseService databaseService;
 
     @PostMapping(
             value = "/create_poll",
@@ -35,7 +35,7 @@ public class CreatePollController {
         newPoll.setPollId(idGenerator.generateNew(Poll.class));
 
         String creatorEmail = newPoll.getCreatorEmail();
-        if (database.getById(User.class, creatorEmail) == null) {
+        if (databaseService.getById(User.class, creatorEmail) == null) {
             return new ResponseEntity<>(
                     "Only registered users can create polls",
                     HttpStatus.NOT_FOUND
@@ -44,7 +44,7 @@ public class CreatePollController {
 
         //TODO: add checking if user tries to add one poll for second time
 
-        database.tryAddById(Poll.class, newPoll.getPollId(), newPoll);
+        databaseService.tryAddById(Poll.class, newPoll.getPollId(), newPoll);
 
         // Need to save answers to database
         for (PollAnswer pollAnswer : newPoll.getAnswers()) {
@@ -53,7 +53,7 @@ public class CreatePollController {
             pollAnswer.setCounter(0);
             pollAnswer.setPollId(newPoll.getPollId());
 
-            database.tryAddById(PollAnswer.class, id, pollAnswer);
+            databaseService.tryAddById(PollAnswer.class, id, pollAnswer);
         }
 
         for (Participant participant : newPoll.getParticipants()) {
@@ -63,7 +63,7 @@ public class CreatePollController {
             participant.setUsed(false);
             participant.setPollId(newPoll.getPollId());
 
-            database.tryAddById(Participant.class, participant.getPassword(), participant);
+            databaseService.tryAddById(Participant.class, participant.getPassword(), participant);
             emailService.sendMessages(participant.getEmail(), participant);
         }
 
