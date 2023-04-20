@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
@@ -16,15 +17,16 @@ public class GetPollController {
     @Autowired
     private EmailService emailService;
     @Autowired
-    private Map<String, Poll> polls;
-
+    private DatabaseService database;
 
     @GetMapping("/get_poll")
     public ResponseEntity<String> getPoll(@RequestParam String id) {
-        if (!polls.containsKey(id)) {
+        Poll poll = database.getById(Poll.class, id);
+
+        if (poll == null) {
             return new ResponseEntity<>("Id not found", HttpStatus.NOT_FOUND);
         } else {
-            return new ResponseEntity<>(polls.get(id).toString(), HttpStatus.OK);
+            return new ResponseEntity<>(poll.toString(), HttpStatus.OK);
         }
     }
 }
