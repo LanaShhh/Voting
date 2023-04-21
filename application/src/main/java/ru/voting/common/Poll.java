@@ -1,12 +1,12 @@
 package ru.voting.common;
 
 import jakarta.persistence.*;
-import lombok.*;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "polls")
@@ -15,28 +15,38 @@ import java.util.Map;
 public class Poll {
     @Id
     @Column(name = "poll_id")
-    @Getter @Setter
+    @Getter
+    @Setter
     private String pollId;
 
+    // Required
     @Column(name = "creator_email", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String creatorEmail;
 
+    // Required
     @Column(name = "question", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String question;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    // Required
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "poll_id")
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<PollAnswer> answers;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    // Required
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "poll_id")
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<Participant> participants;
 
     @Column(name = "answer_counter", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private int answerCounter;
 }

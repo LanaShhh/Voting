@@ -15,15 +15,20 @@ import java.util.List;
 public class User {
     @Id
     @Column(name = "email", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String email;
 
     @Column(name = "password", nullable = false)
-    @Getter @Setter
+    @Getter
+    @Setter
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+    // USE ONLY WHEN GET USER FROM DATABASE, ELSE NULL
+    // TODO: NEED TO CHECK IT IN LOG IN
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "creator_email")
-    @Getter @Setter
+    @Getter
+    @Setter
     private List<Poll> polls;
 }
