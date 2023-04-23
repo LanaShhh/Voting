@@ -26,7 +26,7 @@ public class GetInfoTest {
     MockMvc mockMvc;
 
     @MockBean
-    DatabaseService database;
+    DatabaseService databaseService;
 
     @Test
     void testGetInfo() throws Exception {
@@ -53,7 +53,7 @@ public class GetInfoTest {
 
         eleazar.setPolls(Arrays.asList(poll1, poll2));
 
-        when(database.getById(User.class, "e@mail.ru")).thenReturn(eleazar);
+        when(databaseService.getById(User.class, "e@mail.ru")).thenReturn(eleazar);
 
         mockMvc.perform(get("/get_info?email=e@mail.ru"))
                 .andDo(print())

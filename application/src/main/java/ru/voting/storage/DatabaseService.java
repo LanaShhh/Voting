@@ -10,21 +10,12 @@ public class DatabaseService {
     @Autowired
     private SessionFactory entityManagerFactory;
 
-    public <T> boolean tryAddById(Class<T> tClass, String id, T elem) {
+    public <T> void add(T elem) {
         Session session = entityManagerFactory.openSession();
         session.beginTransaction();
-        boolean ans = true;
-        T dbElem = session.get(tClass, id);
-        if (dbElem != null) {
-            session.persist(elem);
-            ans = false;
-        }
-        if (ans == true) {
-            session.persist(elem);
-        }
+        session.persist(elem);
         session.getTransaction().commit();
         session.close();
-        return ans;
     }
 
     public <T> T getById(Class<T> tClass, String id) {
@@ -34,5 +25,22 @@ public class DatabaseService {
         session.getTransaction().commit();
         session.close();
         return elem;
+    }
+
+    public <T> T remove(T elem) {
+        Session session = entityManagerFactory.openSession();
+        session.beginTransaction();
+        session.remove(elem);
+        session.getTransaction().commit();
+        session.close();
+        return elem;
+    }
+
+    public <T> void update(T elem) {
+        Session session = entityManagerFactory.openSession();
+        session.beginTransaction();
+        session.update(elem);
+        session.getTransaction().commit();
+        session.close();
     }
 }
