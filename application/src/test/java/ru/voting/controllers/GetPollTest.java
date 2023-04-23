@@ -27,7 +27,7 @@ public class GetPollTest {
     MockMvc mockMvc;
 
     @MockBean
-    DatabaseService database;
+    DatabaseService databaseService;
 
     @Test
     void testGetPoll() throws Exception {
@@ -45,7 +45,7 @@ public class GetPollTest {
                 0
         );
 
-        when(database.getById(Poll.class, "unique_id")).thenReturn(poll);
+        when(databaseService.getById(Poll.class, "unique_id")).thenReturn(poll);
 
         mockMvc.perform(get("/get_poll?id=unique_id"))
                 .andDo(print())
