@@ -40,36 +40,38 @@ public class CreatePollController {
             );
         }
 
-        // We get Poll with nullable id, so we need to set it
-        newPoll.setPollId(idGenerator.generateNew(Poll.class));
+        synchronized (this) {
+            // We get Poll with nullable id, so we need to set it
+            newPoll.setPollId(idGenerator.generateNew(Poll.class));
 
-        String creatorEmail = newPoll.getCreatorEmail();
-        if (databaseService.getById(User.class, creatorEmail) == null) {
-            return new ResponseEntity<>(
-                    "Only registered users can create polls",
-                    HttpStatus.NOT_FOUND
-            );
+            String creatorEmail = newPoll.getCreatorEmail();
+            if (databaseService.getById(User.class, creatorEmail) == null) {
+                return new ResponseEntity<>(
+                        "Only registered users can create polls",
+                        HttpStatus.NOT_FOUND
+                );
+            }
+
+            //TODO: add checking if user tries to add one poll for second time
+
+            // Fill answer fields that we do not get from form
+            for (PollAnswer pollAnswer : newPoll.getAnswers()) {
+                String id = idGenerator.generateNew(PollAnswer.class);
+                pollAnswer.setAnswerId(id);
+                pollAnswer.setCounter(0);
+                pollAnswer.setPollId(newPoll.getPollId());
+            }
+
+            for (Participant participant : newPoll.getParticipants()) {
+                // We get participant with only email field set
+                String password = idGenerator.generateNew(Participant.class);
+                participant.setPassword(password);
+                participant.setUsed(false);
+                participant.setPollId(newPoll.getPollId());
+            }
+
+            databaseService.add(newPoll);
         }
-
-        //TODO: add checking if user tries to add one poll for second time
-
-        // Fill answer fields that we do not get from form
-        for (PollAnswer pollAnswer : newPoll.getAnswers()) {
-            String id = idGenerator.generateNew(PollAnswer.class);
-            pollAnswer.setAnswerId(id);
-            pollAnswer.setCounter(0);
-            pollAnswer.setPollId(newPoll.getPollId());
-        }
-
-        for (Participant participant : newPoll.getParticipants()) {
-            // We get participant with only email field set
-            String password = idGenerator.generateNew(Participant.class);
-            participant.setPassword(password);
-            participant.setUsed(false);
-            participant.setPollId(newPoll.getPollId());
-        }
-
-        databaseService.tryAddById(Poll.class, newPoll.getPollId(), newPoll);
 
         // Send emails after everything is ok
         // TODO: add checking email format
