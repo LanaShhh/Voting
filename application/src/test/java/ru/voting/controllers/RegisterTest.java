@@ -12,6 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.voting.common.User;
+import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
@@ -27,17 +28,19 @@ public class RegisterTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    private Map<String, User> users;
+    private DatabaseService databaseService;
 
     @Test
     void testRegister() throws Exception {
-        User newUser1 = new User("email@mail.com", "12345");
+        User newUser1 = new User();
+        newUser1.setEmail("a@mail.com");
+        newUser1.setPassword("12345");
 
         ObjectMapper mapper = new ObjectMapper();
         String newUserJson = mapper.writeValueAsString(newUser1);
 
 
-        when(users.containsKey(eq(newUser1.getEmail()))).thenReturn(false);
+        when(databaseService.getById(User.class, newUser1.getEmail())).thenReturn(null);
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(newUserJson))
@@ -45,7 +48,7 @@ public class RegisterTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Email " + newUser1.getEmail() + " successfully registered!"));
 
-        when(users.containsKey(eq(newUser1.getEmail()))).thenReturn(true);
+        when(databaseService.getById(User.class, newUser1.getEmail())).thenReturn(newUser1);
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(newUserJson))

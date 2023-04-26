@@ -8,23 +8,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.voting.common.User;
+import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
 @Controller
 public class LogIn {
     @Autowired
-    private Map<String, User> users;
+    private DatabaseService databaseService;
 
     @PostMapping(
             value = "/login",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> logIn(@RequestBody User user) {
-        if (!users.containsKey(user.getEmail())) {
+        User user1 = databaseService.getById(User.class, user.getEmail());
+        if (user1 == null) {
             return new ResponseEntity<>("This email is not registered", HttpStatus.BAD_REQUEST);
         }
-        if (!users.get(user.getEmail()).getPassword().equals(user.getPassword())) {
+        if (!user1.getPassword().equals(user.getPassword())) {
             return new ResponseEntity<>("Wrong password", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>("Success", HttpStatus.OK);

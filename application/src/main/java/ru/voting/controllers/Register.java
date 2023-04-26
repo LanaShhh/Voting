@@ -9,23 +9,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.voting.common.Poll;
 import ru.voting.common.User;
+import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
 @Controller
 public class Register {
     @Autowired
-    private Map<String, User> users;
+    private DatabaseService databaseService;
 
     @PostMapping(
             value = "/register",
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public ResponseEntity<String> register(@RequestBody User newUser) {
-        if (users.containsKey(newUser.getEmail())) {
+        User user1 = databaseService.getById(User.class, newUser.getEmail());
+        if (user1 != null) {
             return new ResponseEntity<>("User with such an email already exists", HttpStatus.BAD_REQUEST);
         }
-        users.put(newUser.getEmail(), newUser);
+        databaseService.add(newUser);
         return new ResponseEntity<>("Email " + newUser.getEmail() + " successfully registered!", HttpStatus.OK);
     }
 }

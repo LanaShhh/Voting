@@ -9,6 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.voting.common.User;
+import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
@@ -25,19 +26,23 @@ public class LogInTest {
     @Autowired
     MockMvc mockMvc;
     @MockBean
-    private Map<String, User> users;
+    private DatabaseService databaseService;
 
     @Test
     void testLogIn() throws Exception {
-        User user1 = new User("a@mail.com", "12345");
-        User user2 = new User("test@mail.com", "66666");
+        User user1 = new User();
+        user1.setEmail("a@mail.com");
+        user1.setPassword("12345");
+
+        User user2 = new User();
+        user2.setEmail("test@mail.com");
+        user2.setPassword("66666");
 
         ObjectMapper mapper = new ObjectMapper();
         String user1Json = mapper.writeValueAsString(user1);
         String user2Json = mapper.writeValueAsString(user2);
 
-        when(users.containsKey(eq(user1.getEmail()))).thenReturn(true);
-        when(users.get(user1.getEmail())).thenReturn(user1);
+        when(databaseService.getById(User.class, user1.getEmail())).thenReturn(user1);
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(user1Json))
@@ -45,7 +50,7 @@ public class LogInTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("Success"));
 
-        when(users.containsKey(eq(user2.getEmail()))).thenReturn(false);
+        when(databaseService.getById(User.class, user2.getEmail())).thenReturn(null);
         mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(user2Json))
