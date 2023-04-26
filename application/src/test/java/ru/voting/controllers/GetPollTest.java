@@ -53,3 +53,7 @@ public class GetPollTest {
                 .andExpect(content().string(new ObjectMapper().writeValueAsString(poll)));
     }
 }
+
+
+
+
