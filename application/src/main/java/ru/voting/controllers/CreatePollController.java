@@ -90,14 +90,14 @@ public class CreatePollController {
         if (newPoll.getCreatorEmail() == null || newPoll.getCreatorEmail().equals("")) {
             return "Email is incorrect";
         }
-        if (newPoll.getQuestion() == null || newPoll.getQuestion().equals("")) {
+        if (newPoll.getQuestion() == null || newPoll.getQuestion().trim().equals("")) {
             return "Question is incorrect";
         }
         if (newPoll.getAnswers() == null || newPoll.getAnswers().size() < 2) {
             return "Need more answers variants";
         }
         for (PollAnswer answer : newPoll.getAnswers()) {
-            if (answer.getAnswerText() == null || answer.getAnswerText().equals("")) {
+            if (answer.getAnswerText() == null || answer.getAnswerText().trim().equals("")) {
                 return "Incorrect answer variant";
             }
         }
