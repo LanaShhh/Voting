@@ -59,11 +59,8 @@ public class ChooseAnswerController {
 
             poll.setAnswerCounter(poll.getAnswerCounter() + 1);
 
-            String ansId = "";
-
             for (int i = 0; i < poll.getAnswers().size(); i++) {
                 if (poll.getAnswers().get(i).getAnswerText().equals(answer)) {
-                    ansId = poll.getAnswers().get(i).getAnswerId();
                     poll.getAnswers().get(i).setCounter(poll.getAnswers().get(i).getCounter() + 1);
                     break;
                 }
@@ -71,7 +68,7 @@ public class ChooseAnswerController {
 
             databaseService.update(poll);
 
-            if (poll.getAnswerCounter() == poll.getAnswers().size()) {
+            if (poll.getAnswerCounter() == poll.getParticipants().size()) {
                 emailService.sendPollResults(poll);
             }
         }
