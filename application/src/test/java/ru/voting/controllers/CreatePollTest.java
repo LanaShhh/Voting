@@ -18,6 +18,7 @@ import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
 
 import java.util.Arrays;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doNothing;
@@ -51,7 +52,7 @@ public class CreatePollTest {
                 "unique_id",
                 "e@mail.ru",
                 "Be or not to be?",
-                Arrays.asList(ans1, ans2), Arrays.asList(participant),
+                Arrays.asList(ans1, ans2), List.of(participant),
                 0
         );
 

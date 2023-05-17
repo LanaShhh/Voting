@@ -32,7 +32,7 @@ public class CreatePollController {
     )
     public ResponseEntity<String> createPoll(@RequestBody Poll newPoll) {
         // Check that we have all required fields
-        String isOk = checknewPoll(newPoll);
+        String isOk = checkNewPoll(newPoll);
         if (isOk != null) {
             return new ResponseEntity<>(
                     isOk,
@@ -85,7 +85,7 @@ public class CreatePollController {
         );
     }
 
-    public String checknewPoll(Poll newPoll) {
+    public String checkNewPoll(Poll newPoll) {
         if (newPoll == null) {
             return "Poll is empty";
         }
