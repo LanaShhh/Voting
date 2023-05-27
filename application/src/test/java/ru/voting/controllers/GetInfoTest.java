@@ -1,5 +1,6 @@
 package ru.voting.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -59,7 +60,7 @@ public class GetInfoTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(
-                        Arrays.asList(poll1, poll2).toString()
+                        new ObjectMapper().writeValueAsString(Arrays.asList(poll1, poll2))
                 ));
     }
 
