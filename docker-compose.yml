@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: docker/Dockerfile
+      tags:
+        - "voting:0.0.1"
+    image: "voting:0.0.1"
+    container_name: "voting-app"
+    ports:
+      - "8080:8080"
+  db:
+    image: "postgres:15.3"
+    container_name: "postgres"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    
+
