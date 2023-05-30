@@ -1,4 +1,4 @@
-'use strict';
+import React from 'react'
 
 const e = React.createElement;
 
@@ -73,15 +73,16 @@ class CreateVotingButton extends React.Component {
     async createVoting() {
         let answer_elements = document.getElementsByClassName('answer')
         let question_element = document.getElementById('question')
-        const response = await fetch(`/create_poll`, {
+        const response = await fetch(`http://localhost:8080/create_poll`, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            mode: 'no-cors',
+            headers: new Headers({'Content-Type': 'application/json'}),
             body: JSON.stringify({
                 creatorEmail: "a@b.c",
                 question: question_element.value,
                 answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
                 participants: [{email: "d@e.f"}]
-            })
+            }),
         }).then(r=>console.log(r.text()))
     }
     render() {
@@ -96,7 +97,7 @@ class CreateVotingButton extends React.Component {
 }
 
 
-class Page extends React.Component {
+export class Page extends React.Component {
 
     render() {
         return (
@@ -112,7 +113,3 @@ class Page extends React.Component {
         )
     }
 }
-
-
-const root = document.getElementById('root');
-ReactDOM.render(e(Page), root);
