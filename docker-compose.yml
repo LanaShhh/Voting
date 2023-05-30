@@ -1,3 +1,4 @@
+# To run use command "docker-compose --env-file voting.env up"
 version: '3.8'
 services:
   app:
@@ -9,13 +10,13 @@ services:
       tags:
         - "voting:0.0.1"
     ports:
-      - "8080:8080"
+      - "${APP_PORT}:8080"
+    env_file: "voting.env"
   db:
     image: "postgres:15.3"
     container_name: "postgres"
     ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_PASSWORD: "postgres"
+      - "${DB_PORT}:5432"
+    env_file: "voting.env"
     
 
