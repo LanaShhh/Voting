@@ -7,20 +7,40 @@ class RegistrationForm extends React.Component {
         };
     }
 
-    handleSubmit = async (evt) => {
+    handleSubmit() {
         evt.preventDefault();
-        console.log("start handle");
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "https://reqbin.com/echo/post/json");
+        xhr.setRequestHeader("Accept", "application/json");
+        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                console.log(xhr.status);
+                console.log(xhr.responseText);
+            }
+        };
+
+        let data = `{
+            "email": ma@m,
+            "password": 78912
+        }`;
+
+        xhr.send(data);
+
+
+        /* console.log("start handle");
         try {
-            let res = await fetch("/register", {
-                mode: "cors",
+            let res = fetch("/register", {
                 method: "POST",
+                headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
                     email: this.state.email,
                     password: this.state.password,
                 }),
             });
             console.log("doing handling");
-            let resJson = await res.json();
+            let resJson = res.json();
             if (res.status === 200) {
                 this.setState({
                     email: "",
@@ -31,7 +51,7 @@ class RegistrationForm extends React.Component {
             }
         } catch (err) {
             console.log(err);
-        }
+        }*/
     };
 
     render() {
@@ -40,10 +60,10 @@ class RegistrationForm extends React.Component {
             <form onSubmit={this.handleSubmit}>
                 <input type="email" placeholder="Почта" onChange={
                     (evt) => this.setState({email: evt.target.value})
-                } required />
+                } required/>
                 <input type="password" placeholder="Пароль" onChange={
                     (evt) => this.setState({password: evt.target.value})
-                } required />
+                } required/>
                 <button type="submit">Создать аккаунт</button>
             </form>
         </div>);

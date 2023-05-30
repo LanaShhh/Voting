@@ -7,30 +7,31 @@ class RegistrationForm extends React.Component {
             email: "",
             password: ""
         };
+
+        //this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     // отправляем данные бэкенду, создаём нового пользователя
-    handleSubmit = async (evt) => {
+    handleSubmit = (evt) => {
         evt.preventDefault();
-        console.log("start handle");
 
-        let res = await fetch("/register", {
+        let res = fetch("/register", {
             method: "POST",
             contentType: "application/json; charset=utf-8",
             dataType: "json",
             body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password,
+                email: "eleazar12th@ru",
+                password: "122s",
             }),
         });
-        console.log("doing handling");
-        let resJson = await res.json();
+        let resJson = res.json();
         if (res.status === 200) {
             this.setState({
                 email: "",
                 password: ""
             });
         } else {
+            console.log("tumba-U");
             console.log(resJson);
             console.log(res);
         }
