@@ -49,7 +49,7 @@ public class CreatePollTest {
         Participant participant = new Participant();
 
         Poll poll = new Poll(
-                "unique_id",
+                null,
                 "e@mail.ru",
                 "Be or not to be?",
                 Arrays.asList(ans1, ans2), List.of(participant),

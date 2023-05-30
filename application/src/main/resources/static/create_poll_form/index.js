@@ -9,7 +9,7 @@ class AnswerField extends React.Component{
         return (
             <div className="row">
                 <div className="container-fluid p-1 col-sm-10">
-                    <input id="question" className="w-100 align-middle" placeholder='Вариант ответа'/>
+                    <input className="w-100 align-middle answer" placeholder='Вариант ответа'/>
                 </div>
                 <div className="h-100 container-fluid p-1 col-sm-2">
                     <button className="btn btn-primary w-100 align-middle" type="button"
@@ -27,13 +27,14 @@ class AnswerContainer extends React.Component {
         super(props);
         this.deleteAnswer = this.deleteAnswer.bind(this)
         this.state = {
-            answers: [
+            "answers": [
                 e(AnswerField,
                     {
                         id: nextId,
                         key: nextId++,
                         delete_callback: this.deleteAnswer})],
         }
+        this.addAnswer = this.addAnswer.bind(this)
     }
 
     deleteAnswer(answer_id) {
@@ -48,7 +49,7 @@ class AnswerContainer extends React.Component {
                 e(AnswerField, {
                     id: nextId,
                     key: nextId++,
-                    delete_listener: this.deleteAnswer})]
+                    delete_callback: this.deleteAnswer})]
         })
     }
 
@@ -56,7 +57,7 @@ class AnswerContainer extends React.Component {
         return (
             <div className="container mt-2" id="answer-container">
                 {this.state.answers}
-                <button className="btn btn-primary w-100 mt-2" type="button" onClick={() => this.addAnswer()}>
+                <button className="btn btn-primary w-100 mt-2" type="button" onClick={this.addAnswer}>
                     Добавить вариант ответа
                 </button>
             </div>
@@ -69,9 +70,19 @@ class CreateVotingButton extends React.Component {
         super(props);
         this.createVoting = this.createVoting.bind(this)
     }
-    createVoting() {
-        const answers = this.props.answer_container
-        console.log(anwers)
+    async createVoting() {
+        let answer_elements = document.getElementsByClassName('answer')
+        let question_element = document.getElementById('question')
+        const response = await fetch(`/create_poll`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                creatorEmail: "a@b.c",
+                question: question_element.value,
+                answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
+                participants: [{email: "d@e.f"}]
+            })
+        }).then(r=>console.log(r.text()))
     }
     render() {
         return (
@@ -88,17 +99,15 @@ class CreateVotingButton extends React.Component {
 class Page extends React.Component {
 
     render() {
-        const answer_container = e(AnswerContainer);
-        const create_voting_button = e(CreateVotingButton, { answer_container: answer_container });
         return (
             <div className="container pr-5 pl-5 pt-1">
                 <div className="row">
-                    <div className="container-fluid p-1 col-sm-8">
+                    <div className="container-fluid p-1 col-sm-8" id="questio">
                         <input id="question" className="w-100 align-middlef fs-3" placeholder='Ваш вопрос...'/>
                     </div>
-                    {create_voting_button}
+                    <CreateVotingButton />
                 </div>
-                {answer_container}
+                <AnswerContainer />
             </div>
         )
     }

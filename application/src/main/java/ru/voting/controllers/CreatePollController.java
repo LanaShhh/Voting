@@ -89,25 +89,25 @@ public class CreatePollController {
         if (newPoll == null) {
             return "Poll is empty";
         }
-        if (newPoll.getCreatorEmail() == null || newPoll.getCreatorEmail().equals("")) {
+        if (newPoll.getCreatorEmail() == null || newPoll.getCreatorEmail().isEmpty()) {
             return "Email is incorrect";
         }
-        if (newPoll.getQuestion() == null || newPoll.getQuestion().equals("")) {
+        if (newPoll.getQuestion() == null || newPoll.getQuestion().isEmpty()) {
             return "Question is incorrect";
         }
         if (newPoll.getAnswers() == null || newPoll.getAnswers().size() < 2) {
             return "Need more answers variants";
         }
         for (PollAnswer answer : newPoll.getAnswers()) {
-            if (answer.getAnswerText() == null || answer.getAnswerText().equals("")) {
+            if (answer == null || answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
                 return "Incorrect answer variant";
             }
         }
-        if (newPoll.getParticipants() == null || newPoll.getParticipants().size() == 0) {
+        if (newPoll.getParticipants() == null || newPoll.getParticipants().isEmpty()) {
             return "Need more participants";
         }
         for (Participant participant : newPoll.getParticipants()) {
-            if (participant.getEmail() == null || participant.getEmail().equals("")) {
+            if (participant.getEmail() == null || participant.getEmail().isEmpty()) {
                 return "Incorrect participant email";
             }
         }
