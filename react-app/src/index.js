@@ -1,6 +1,11 @@
 import React from "react";
 import * as ReactDOMClient from "react-dom/client";
-import RegistrationForm from "./RegistrationForm";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
 
 const app = ReactDOMClient.createRoot(document.getElementById("app"));
-app.render(<RegistrationForm />);
+app.render(
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+);
