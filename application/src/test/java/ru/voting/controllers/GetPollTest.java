@@ -34,20 +34,21 @@ public class GetPollTest {
         PollAnswer a = new PollAnswer(null, "a", 0, null);
         PollAnswer b = new PollAnswer(null, "b", 0, null);
 
-        Participant pA = new Participant(null, "e1", false, null);
-        Participant pB = new Participant(null, "e2", false, null);
+        Participant participantA = new Participant("xxx", "e1", false, "unique_id");
+        Participant participantB = new Participant("yyy", "e2", false, "unique_id");
 
         Poll poll = new Poll(
                 "unique_id",
                 "email",
                 "Be or not to be?",
-                Arrays.asList(a, b), Arrays.asList(pA, pB),
+                Arrays.asList(a, b), Arrays.asList(participantA, participantB),
                 0
         );
 
+        when(databaseService.getById(Participant.class, "xxx")).thenReturn(participantA);
         when(databaseService.getById(Poll.class, "unique_id")).thenReturn(poll);
 
-        mockMvc.perform(get("/get_poll?id=unique_id"))
+        mockMvc.perform(get("/get_poll?password=xxx"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(new ObjectMapper().writeValueAsString(poll)));
