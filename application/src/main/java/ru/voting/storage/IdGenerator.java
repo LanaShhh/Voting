@@ -10,14 +10,16 @@ public class IdGenerator {
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
                     "abcdefghijklmnopqrstuvwxyz" +
                     "0123456789";
+    final int idLength = 12;
+
     @Autowired
     private DatabaseService databaseService;
 
     public <T> String generateNew(Class<T> tClass) {
-        String id = RandomStringUtils.random(12, ID_CHARACTERS);
-        while (databaseService.getById(tClass, id) != null) {
-            id = RandomStringUtils.random(12, ID_CHARACTERS);
-        }
+        String id;
+        do {
+            id = RandomStringUtils.random(idLength, ID_CHARACTERS);
+        } while (databaseService.getById(tClass, id) != null);
 
         return id;
     }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
 import ru.voting.storage.IdGenerator;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class CreatePollController {
     @Autowired
@@ -32,7 +34,7 @@ public class CreatePollController {
     )
     public ResponseEntity<String> createPoll(@RequestBody Poll newPoll) {
         // Check that we have all required fields
-        String isOk = checknewPoll(newPoll);
+        String isOk = checkNewPoll(newPoll);
         if (isOk != null) {
             return new ResponseEntity<>(
                     isOk,
@@ -85,29 +87,29 @@ public class CreatePollController {
         );
     }
 
-    public String checknewPoll(Poll newPoll) {
+    public String checkNewPoll(Poll newPoll) {
         if (newPoll == null) {
             return "Poll is empty";
         }
-        if (newPoll.getCreatorEmail() == null || newPoll.getCreatorEmail().equals("")) {
+        if (newPoll.getCreatorEmail() == null || newPoll.getCreatorEmail().isEmpty()) {
             return "Email is incorrect";
         }
-        if (newPoll.getQuestion() == null || newPoll.getQuestion().equals("")) {
+        if (newPoll.getQuestion() == null || newPoll.getQuestion().isEmpty()) {
             return "Question is incorrect";
         }
         if (newPoll.getAnswers() == null || newPoll.getAnswers().size() < 2) {
             return "Need more answers variants";
         }
         for (PollAnswer answer : newPoll.getAnswers()) {
-            if (answer.getAnswerText() == null || answer.getAnswerText().equals("")) {
+            if (answer == null || answer.getAnswerText() == null || answer.getAnswerText().isEmpty()) {
                 return "Incorrect answer variant";
             }
         }
-        if (newPoll.getParticipants() == null || newPoll.getParticipants().size() == 0) {
+        if (newPoll.getParticipants() == null || newPoll.getParticipants().isEmpty()) {
             return "Need more participants";
         }
         for (Participant participant : newPoll.getParticipants()) {
-            if (participant.getEmail() == null || participant.getEmail().equals("")) {
+            if (participant.getEmail() == null || participant.getEmail().isEmpty()) {
                 return "Incorrect participant email";
             }
         }
