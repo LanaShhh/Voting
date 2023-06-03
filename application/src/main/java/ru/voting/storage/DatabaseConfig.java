@@ -17,8 +17,8 @@ public class DatabaseConfig {
                 .addAnnotatedClass(User.class)
                 .addAnnotatedClass(Participant.class)
                 .addAnnotatedClass(PollAnswer.class)
-                .setProperty("hibernate.connection.url", "jdbc:postgresql://" + System.getenv("DBHOST") + ":" + System.getenv("DBPORT") + "/" + System.getenv("DBNAME"))
-                .setProperty("hibernate.connection.username", System.getenv("DBUSER"))
+                .setProperty("hibernate.connection.url", "jdbc:postgresql://" + System.getenv("DBHOST") + ":" + System.getenv("DBPORT") + "/" + System.getenv("POSTGRES_DB"))
+                .setProperty("hibernate.connection.username", System.getenv("POSTGRES_USER"))
                 .setProperty("hibernate.connection.password", System.getenv("POSTGRES_PASSWORD"))
                 .buildSessionFactory();
     }

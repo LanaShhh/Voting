@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 
 const e = React.createElement;
 
@@ -73,17 +74,19 @@ class CreateVotingButton extends React.Component {
     async createVoting() {
         let answer_elements = document.getElementsByClassName('answer')
         let question_element = document.getElementById('question')
-        const response = await fetch(`http://localhost:8080/create_poll`, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: new Headers({'Content-Type': 'application/json'}),
-            body: JSON.stringify({
-                creatorEmail: "a@b.c",
-                question: question_element.value,
-                answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
-                participants: [{email: "d@e.f"}]
-            }),
-        }).then(r=>console.log(r.text()))
+
+        let client = axios.create({
+            baseURL: "http://localhost:8080",
+            headers: {
+                "Content-type": "application/json"
+            }
+        });
+        const response = await client.post('/create_poll', {
+            creatorEmail: "a@b.c",
+            question: question_element.value,
+            answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
+            participants: [{email: "d@e.f"}]
+        }).then(r=>console.log(r.data))
     }
     render() {
         return (
