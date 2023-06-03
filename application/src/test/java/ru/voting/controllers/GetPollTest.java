@@ -10,6 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.common.PollAnswer;
+import ru.voting.controllers.GetPollController.getPollResponse;
 import ru.voting.storage.DatabaseService;
 
 import java.util.Arrays;
@@ -44,6 +45,9 @@ public class GetPollTest {
                 Arrays.asList(a, b), Arrays.asList(participantA, participantB),
                 0
         );
+        getPollResponse correctResponse = new getPollResponse(poll);
+
+
 
         when(databaseService.getById(Participant.class, "xxx")).thenReturn(participantA);
         when(databaseService.getById(Poll.class, "unique_id")).thenReturn(poll);
@@ -51,7 +55,7 @@ public class GetPollTest {
         mockMvc.perform(get("/get_poll?password=xxx"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(new ObjectMapper().writeValueAsString(poll)));
+                .andExpect(content().string(new ObjectMapper().writeValueAsString(correctResponse)));
     }
 }
 
