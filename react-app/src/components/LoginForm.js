@@ -22,7 +22,7 @@ class LoginForm extends React.Component {
             password: this.state.password
         };
         http.post("/login", someUser).then(
-            (res) => {
+            () => {
                 this.setState({submitted: true});
             }
         ).catch(

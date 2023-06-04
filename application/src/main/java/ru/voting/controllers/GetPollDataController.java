@@ -1,33 +1,30 @@
 package ru.voting.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.common.PollAnswer;
-import ru.voting.emails.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import ru.voting.storage.DatabaseService;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class GetPollController {
+public class GetPollDataController {
     @Autowired
     private DatabaseService databaseService;
 
-    public static class getPollResponse {
+    public static class pollData {
         public String question;
         public List<String> answers = new ArrayList<>();
 
-        public getPollResponse(Poll poll) {
+        public pollData(Poll poll) {
             question = poll.getQuestion();
             for (PollAnswer pollAnswer : poll.getAnswers()) {
                 answers.add(pollAnswer.getAnswerText());
@@ -36,8 +33,8 @@ public class GetPollController {
     }
 
     @ResponseBody
-    @GetMapping("/get_poll")
-    public ResponseEntity<String> getPoll(@RequestParam String password) {
+    @GetMapping("/get_poll_data")
+    public ResponseEntity<String> getPollData(@RequestParam String password) {
         if (password == null || password.equals("")) {
             return new ResponseEntity<>(
                     "Password is incorrect",
@@ -56,7 +53,7 @@ public class GetPollController {
         Poll poll = databaseService.getById(Poll.class, participant.getPollId());
 
         try {
-            getPollResponse response = new getPollResponse(poll);
+            pollData response = new pollData(poll);
             return new ResponseEntity<>(new ObjectMapper().writeValueAsString(response), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>("Serializing problem", HttpStatus.INTERNAL_SERVER_ERROR);

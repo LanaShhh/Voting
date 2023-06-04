@@ -28,7 +28,7 @@ class RegistrationForm extends React.Component {
             password: this.state.password
         };
         http.post("/register", newUser).then(
-            (res) => {
+            () => {
                 this.setState({submitted: true});
             }
         ).catch(

@@ -10,7 +10,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.common.PollAnswer;
-import ru.voting.controllers.GetPollController.getPollResponse;
+import ru.voting.controllers.GetPollDataController.pollData;
 import ru.voting.storage.DatabaseService;
 
 import java.util.Arrays;
@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GetPollTest {
+public class GetPollDataTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -45,14 +45,14 @@ public class GetPollTest {
                 Arrays.asList(a, b), Arrays.asList(participantA, participantB),
                 0
         );
-        getPollResponse correctResponse = new getPollResponse(poll);
+        pollData correctResponse = new pollData(poll);
 
 
 
         when(databaseService.getById(Participant.class, "xxx")).thenReturn(participantA);
         when(databaseService.getById(Poll.class, "unique_id")).thenReturn(poll);
 
-        mockMvc.perform(get("/get_poll?password=xxx"))
+        mockMvc.perform(get("/get_poll_data?password=xxx"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(new ObjectMapper().writeValueAsString(correctResponse)));
