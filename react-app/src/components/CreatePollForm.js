@@ -1,115 +1,59 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { useLocation, Navigate } from "react-router-dom";
 import http from "../http-common";
+import AnswerContainer from "./AnswerContainer";
+import ParticipantContainer from "./ParticipantContainer";
+import VotingButton from "./VotingButton";
 
-const e = React.createElement;
+export default function CreatePollForm() {
+    const { userEmail } = useLocation().state;
+    const [submitted, setSubmitted] = useState(false);
 
-let nextId = 0;
+    function handleSubmit(evt) {
+        evt.preventDefault();
 
-class AnswerField extends React.Component{
-    render() {
-        return (
-            <div className="row">
-                <div className="container-fluid p-1 col-sm-10">
-                    <input className="w-100 align-middle answer" placeholder='Вариант ответа'/>
-                </div>
-                <div className="h-100 container-fluid p-1 col-sm-2">
-                    <button className="btn btn-primary w-100 align-middle" type="button"
-                            onClick={() => this.props.delete_callback(this.props.id)}>
-                        Удалить ответ
-                    </button>
-                </div>
-            </div>
-        )
-    }
-}
+        let answer_elements = document.getElementsByClassName('answer');
+        let participant_elements = document.getElementsByClassName('participant');
+        let question_element = document.getElementById('question');
 
-class AnswerContainer extends React.Component {
-    constructor(props) {
-        super(props);
-        this.deleteAnswer = this.deleteAnswer.bind(this)
-        this.state = {
-            "answers": [
-                e(AnswerField,
-                    {
-                        id: nextId,
-                        key: nextId++,
-                        delete_callback: this.deleteAnswer})],
-        }
-        this.addAnswer = this.addAnswer.bind(this)
-    }
-
-    deleteAnswer(answer_id) {
-        this.setState({
-            answers: this.state.answers.filter(current_answer => current_answer.props.id !== answer_id)
-        })
-    }
-
-    addAnswer() {
-        this.setState({
-            answers: [...this.state.answers,
-                e(AnswerField, {
-                    id: nextId,
-                    key: nextId++,
-                    delete_callback: this.deleteAnswer})]
-        })
-    }
-
-    render() {
-        return (
-            <div className="container mt-2" id="answer-container">
-                {this.state.answers}
-                <button className="btn btn-primary w-100 mt-2" type="button" onClick={this.addAnswer}>
-                    Добавить вариант ответа
-                </button>
-            </div>
-        )
-    }
-}
-
-class CreateVotingButton extends React.Component {
-    constructor(props) {
-        super(props);
-        this.createVoting = this.createVoting.bind(this)
-    }
-    async createVoting() {
-        let answer_elements = document.getElementsByClassName('answer')
-        let question_element = document.getElementById('question')
-
-        const response = http.post('/create_poll', {
-            creatorEmail: "a@b.c",
+        let newPoll = {
+            creatorEmail: userEmail,
             question: question_element.value,
             answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
-            participants: [{email: "d@e.f"}]
-        }).then(r=>console.log(r.data))
+            participants: Array.from(participant_elements, x => { return {email: x.value} })
+        }
+        http.post('/create_poll', newPoll).then(
+            () => {
+                setSubmitted(true);
+            }
+        ).catch(
+            (err) => {
+                console.log("ERROR");
+                console.log(err.response.status);
+                console.log(err.response.data);
+            }
+        );
     }
-    render() {
+
+    if (submitted) {
         return (
-            <div className="h-100 container-fluid p-1 col-sm-4">
-                <button className="btn btn-primary w-100 align-middle" type="button" onClick={this.createVoting}>
-                    Создать
-                </button>
-            </div>
-        )
+            <Navigate to="/account" state={{userEmail: userEmail}} />
+        );
     }
-}
 
-
-class CreatePollForm extends React.Component {
-
-    render() {
-        return (
-            <div className="container pr-5 pl-5 pt-1">
+    return (
+        <div className="container pr-5 pl-5 pt-1">
+            <form onSubmit={handleSubmit}>
                 <h1>Новый опрос</h1>
                 <div className="row">
-                    <div className="container-fluid p-1 col-sm-8" id="question">
+                    <div className="container-fluid p-1 col-sm-8">
                         <input id="question" className="w-100 align-middlef fs-3" placeholder='Ваш вопрос'/>
                     </div>
-                    <CreateVotingButton />
+                    <VotingButton />
                 </div>
                 <AnswerContainer />
-            </div>
-        )
-    }
+                <ParticipantContainer />
+            </form>
+        </div>
+    );
 }
-
-export default CreatePollForm;

@@ -22,7 +22,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GetInfoTest {
+public class GetUserPollsTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -56,7 +56,7 @@ public class GetInfoTest {
 
         when(databaseService.getById(User.class, "e@mail.ru")).thenReturn(eleazar);
 
-        mockMvc.perform(get("/get_info?email=e@mail.ru"))
+        mockMvc.perform(get("/get_user_polls?email=e@mail.ru"))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().string(

@@ -13,11 +13,11 @@ import ru.voting.storage.DatabaseService;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-public class GetInfoController {
+public class GetUserPollsController {
     @Autowired
     private DatabaseService databaseService;
 
-    @GetMapping("/get_info")
+    @GetMapping("/get_user_polls")
     public ResponseEntity<String> getInfo(@RequestParam String email) {
         if (email == null || email.equals("")) {
             return new ResponseEntity<>(
