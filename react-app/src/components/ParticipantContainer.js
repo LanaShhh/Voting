@@ -8,7 +8,8 @@ class ParticipantField extends React.Component {
         return (
             <div className="row">
                 <div className="container-fluid p-1 col-sm-10">
-                    <input className="w-100 align-middle participant" type="email" placeholder='Участник опроса (почта)'/>
+                    <input className="w-100 align-middle participant" type="email"
+                           placeholder='Участник опроса (почта)' required/>
                 </div>
                 <div className="h-100 container-fluid p-1 col-sm-2">
                     <button className="btn btn-primary w-100 align-middle bg-dark" type="button"

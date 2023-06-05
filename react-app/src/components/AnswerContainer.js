@@ -8,7 +8,7 @@ class AnswerField extends React.Component{
         return (
             <div className="row">
                 <div className="container-fluid p-1 col-sm-10">
-                    <input className="w-100 align-middle answer" placeholder='Вариант ответа'/>
+                    <input className="w-100 align-middle answer" placeholder='Вариант ответа' required/>
                 </div>
                 <div className="h-100 container-fluid p-1 col-sm-2">
                     <button className="btn btn-primary w-100 align-middle" type="button"
@@ -31,7 +31,7 @@ class AnswerContainer extends React.Component {
                     {
                         id: nextId,
                         key: nextId++,
-                        delete_callback: this.deleteAnswer})],
+                        delete_callback: this.deleteAnswer})]
         }
         this.addAnswer = this.addAnswer.bind(this);
     }

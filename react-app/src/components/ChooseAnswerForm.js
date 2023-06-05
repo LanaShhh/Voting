@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import http from "../http-common";
+import translateToRussian from "../translation";
 
 export default function ChooseAnswerForm() {
     const [question, setQuestion] = useState(null);
     const [answers, setAnswers] = useState([]);
-    let [chosenAnswer, setChosenAnswer] = useState(null);
+    const [chosenAnswer, setChosenAnswer] = useState(null);
+    const [access, setAccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+    const [successMessage, setSuccessMessage] = useState("");
 
     function getPollData(password) {
         http.get("/get_poll_data?password=" + password).then(
             (res) => {
+                setAccess(true);
                 setQuestion(res.data["question"]);
                 setAnswers(res.data["answers"]);
             }
         ).catch(
             (err) => {
-                console.log("ERROR");
-                console.log(err.response.status);
-                console.log(err.response.data);
+                setErrorMessage("Ошибка: " + translateToRussian(err.response.data));
             }
         );
     }
@@ -31,18 +34,24 @@ export default function ChooseAnswerForm() {
     function handleSubmit(evt) {
         evt.preventDefault();
 
+        setErrorMessage("");
+        setSuccessMessage("");
+
         http.put(`/choose_answer?password=${password}&answer=${chosenAnswer}`).then(
-            (res) => {
-                console.log(res.status);
-                console.log(res.data);
+            () => {
+                setSuccessMessage("Ваш ответ успешно записан");
             }
         ).catch(
             (err) => {
-                console.log("ERROR");
-                console.log(err.response.status);
-                console.log(err.response.data);
+                setErrorMessage("Ошибка: " + translateToRussian(err.response.data));
             }
         );
+    }
+
+    if (!access) {
+        return (<div>
+            <h6 style={{color: "red"}}>{errorMessage}</h6>
+        </div>);
     }
 
     return (<div>
@@ -58,5 +67,7 @@ export default function ChooseAnswerForm() {
             })}
             <button type="submit">Проголосовать</button>
         </form>
+        {errorMessage && <h6 style={{color: "red"}}>{errorMessage}</h6>}
+        {successMessage && <h6 style={{color: "green"}}>{successMessage}</h6>}
     </div>);
 }

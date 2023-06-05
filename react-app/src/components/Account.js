@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import http from "../http-common";
 import PollData from "./PollData";
+import translateToRussian from "../translation";
 
 export default function Account() {
     const { userEmail } = useLocation().state;
     const [userPolls, setUserPolls] = useState([]);
+    const [errorMessage, setErrorMessage] = useState("");
 
     function getPolls(email) {
         http.get("/get_user_polls?email=" + email).then(
@@ -14,9 +16,7 @@ export default function Account() {
             }
         ).catch(
             (err) => {
-                console.log("ERROR");
-                console.log(err.response.status);
-                console.log(err.response.data);
+                setErrorMessage("Ошибка: " + translateToRussian(err.response.data));
             }
         );
     }
@@ -28,6 +28,7 @@ export default function Account() {
     return (<div>
         <h1>{userEmail}</h1>
         {userPolls.length > 0 && <h2>Мои опросы</h2>}
+        {errorMessage && <h6 style={{color: "red"}}>{errorMessage}</h6>}
         {userPolls.map((poll) => {
             return (<div key={poll["pollId"]}>
                 <PollData poll={poll}></PollData>

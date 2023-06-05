@@ -1,6 +1,8 @@
 import React from "react";
 import http from "../http-common";
-import { Navigate } from 'react-router-dom';
+import AfterRegistrationPage from "./AfterRegistrationPage";
+import checkLength from "../check_format_functions/check-length";
+import translateToRussian from "../translation";
 
 class RegistrationForm extends React.Component {
     constructor(props) {
@@ -9,17 +11,37 @@ class RegistrationForm extends React.Component {
             email: "",
             password: "",
             passwordCheck: "",
-            submitted: false
+            submitted: false,
+            errorMessage: ""
         };
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleSubmit(evt) {
-        evt.preventDefault();
+    isInputCorrect() {
+        if (!checkLength(this.state.email)) {
+            this.setState({errorMessage: "Ошибка: длина почты не может превышать 50 символов"});
+            return false;
+        }
+
+        if (!checkLength(this.state.password)) {
+            this.setState({errorMessage: "Ошибка: длина пароля не может превышать 50 символов"});
+            return false;
+        }
 
         if (this.state.password !== this.state.passwordCheck) {
-            console.log("Повторите палорь правильно");
+            this.setState({errorMessage: "Ошибка: повторите пароль правильно"});
+            return false;
+        }
+
+        return true;
+    }
+
+    handleSubmit(evt) {
+        evt.preventDefault();
+        this.setState({errorMessage: ""});
+
+        if (!this.isInputCorrect()) {
             return;
         }
 
@@ -33,9 +55,7 @@ class RegistrationForm extends React.Component {
             }
         ).catch(
             (err) => {
-                console.log("ERROR");
-                console.log(err.response.status);
-                console.log(err.response.data);
+                this.setState({errorMessage: "Ошибка: " + translateToRussian(err.response.data)});
             }
         );
     };
@@ -43,7 +63,7 @@ class RegistrationForm extends React.Component {
     render() {
         if (this.state.submitted) {
            return (
-               <Navigate to="/" />
+               <AfterRegistrationPage />
            );
         }
 
@@ -61,6 +81,7 @@ class RegistrationForm extends React.Component {
                 } required />
                 <button type="submit">Создать аккаунт</button>
             </form>
+            {this.state.errorMessage && <h6 style={{color: "red"}}>{this.state.errorMessage}</h6>}
         </div>);
     }
 }
