@@ -16,7 +16,9 @@ const errorsMap = {
     "Need more participants": "должен быть хотя бы один участник",
     "Incorrect participant email": "некорректная почта участника",
     "Password has been used": "ваш одноразовый пароль для прохождения этого опроса уже был использован",
-    "Answer is incorrect": "некорректный ответ"
+    "Answer is incorrect": "некорректный ответ",
+    "Answers must be unique": "не может быть одинаковых вариантов ответа",
+    "Participants' emails must be unique": "у участников не могут совпадать почты"
 }
 
 export default function translateToRussian(errorMessage) {
