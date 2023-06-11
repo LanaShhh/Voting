@@ -6,6 +6,13 @@ body {
 h1 {
     margin: 30px;
 }
+
+#rad {
+    text-align: center;
+    margin: 10px;
+    font-size: 1.3em;
+}
+
 h3 {
     margin: 30px;
 }

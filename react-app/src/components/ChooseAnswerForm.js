@@ -63,13 +63,15 @@ export default function ChooseAnswerForm() {
         <form onSubmit={handleSubmit}>
             <h1>{question}</h1>
             {answers.map((ans, i) => {
-                return (<div key={i}>
-                    <input type="radio" id={"ans" + i} name="answer" value={"answer" + i} onChange={
+                return (<div id="rad" key={i}>
+
+                        <input class="form-check-input" type="radio" id={"ans" + i} name="answer" value={"answer" + i} onChange={
                         () => setChosenAnswer(ans)
                     } required />
                     <label htmlFor={"ans" + i}>{ans}</label>
                 </div>);
             })}
+
             <button type="submit" className="btn default">Проголосовать</button>
         </form>
         {errorMessage && <h6 style={{color: "red"}}>{errorMessage}</h6>}
