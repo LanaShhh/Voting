@@ -12,7 +12,7 @@ class ParticipantField extends React.Component {
                            placeholder='Участник опроса (почта)' required/>
                 </div>
                 <div className="h-100 container-fluid p-1 col-sm-2">
-                    <button className="btn btn-primary w-100 align-middle bg-dark" type="button"
+                    <button id="right_button" className="btn btn-primary w-100 align-middle" type="button"
                             onClick={() => this.props.delete_callback(this.props.id)}>
                         Удалить участника
                     </button>
@@ -58,7 +58,7 @@ class ParticipantContainer extends React.Component {
         return (
             <div className="container mt-2" id="participant-container">
                 {this.state.participants}
-                <button className="btn btn-primary w-100 mt-2 bg-dark" type="button" onClick={this.addParticipant}>
+                <button  className="btn default w-100 mt-2 add" type="button" onClick={this.addParticipant}>
                     Добавить участника
                 </button>
             </div>

@@ -85,12 +85,15 @@ export default function CreatePollForm() {
         <div className="container pr-5 pl-5 pt-1">
             <form onSubmit={handleSubmit}>
                 <h1>Новый опрос</h1>
-                <div className="row">
-                    <div className="container-fluid p-1 col-sm-8">
-                        <input id="question" className="w-100 align-middlef fs-3" placeholder='Ваш вопрос' required/>
+                <div class="container-fluid">
+                    <div className="row">
+                        <div className="container-fluid p-1 col-sm-8">
+                            <input id="question" className="w-100 align-middlef fs-3" placeholder='Ваш вопрос' required/>
+                        </div>
+                        <VotingButton />
                     </div>
-                    <VotingButton />
                 </div>
+
                 <AnswerContainer />
                 <ParticipantContainer />
             </form>

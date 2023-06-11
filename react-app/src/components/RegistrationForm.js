@@ -68,18 +68,37 @@ class RegistrationForm extends React.Component {
         }
 
         return (<div>
-            <h1>Регистрация</h1>
+            <nav className="navbar navbar-expend-md">
+                <a className="navbar-brand" href="#">
+                    Голосовалка|Регистрация
+                </a>
+            </nav>
             <form onSubmit={this.handleSubmit}>
-                <input type="email" placeholder="Почта" onChange={
-                    (evt) => this.setState({email: evt.target.value})
-                } required />
-                <input type="password" placeholder="Пароль" onChange={
-                    (evt) => this.setState({password: evt.target.value})
-                } required />
-                <input type="password" placeholder="Повторите пароль" onChange={
-                    (evt) => this.setState({passwordCheck: evt.target.value})
-                } required />
-                <button type="submit">Создать аккаунт</button>
+                <div className="btn-group" >
+
+                <div className="container">
+                    <div className="row">
+                        <div className="col-md-12">
+                        <input type="email" placeholder="Почта" onChange={
+                            (evt) => this.setState({email: evt.target.value})
+                        } required />
+                        </div>
+                        <div className="col-md-12">
+                        <input type="password" placeholder="Пароль" onChange={
+                            (evt) => this.setState({password: evt.target.value})
+                        } required />
+                        </div>
+                        <div className="col-md-12">
+                        <input type="password" placeholder="Повторите пароль" onChange={
+                            (evt) => this.setState({passwordCheck: evt.target.value})
+                        } required />
+                        </div>
+                        <div className="col-md-12">
+                        <button className="btn default" type="submit">Создать аккаунт</button>
+                        </div>
+                    </div>
+                </div>
+                </div>
             </form>
             {this.state.errorMessage && <h6 style={{color: "red"}}>{this.state.errorMessage}</h6>}
         </div>);

@@ -26,8 +26,12 @@ export default function Account() {
     }, [userEmail]);
 
     return (<div>
-        <h1>{userEmail}</h1>
-        {userPolls.length > 0 && <h2>Мои опросы</h2>}
+        <nav className="navbar navbar-expend-md">
+            <a className="navbar-brand">
+                Голосовалка|Личный кабинет {userEmail}
+            </a>
+        </nav>
+        {userPolls.length > 0 && <h1>Мои опросы</h1>}
         {errorMessage && <h6 style={{color: "red"}}>{errorMessage}</h6>}
         {userPolls.map((poll) => {
             return (<div key={poll["pollId"]}>
@@ -36,7 +40,7 @@ export default function Account() {
         })}
         <aside>
             <Link to="/create_poll" state={{userEmail: userEmail}}>
-                <button type="button">Новый опрос</button>
+                <button type="button " className="btn default">Создать новый опрос</button>
             </Link>
         </aside>
     </div>);

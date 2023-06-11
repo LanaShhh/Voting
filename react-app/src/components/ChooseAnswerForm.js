@@ -55,6 +55,11 @@ export default function ChooseAnswerForm() {
     }
 
     return (<div>
+        <nav className="navbar navbar-expend-md">
+            <a className="navbar-brand">
+                Голосовалка|Прохождение опроса
+            </a>
+        </nav>
         <form onSubmit={handleSubmit}>
             <h1>{question}</h1>
             {answers.map((ans, i) => {
@@ -65,7 +70,7 @@ export default function ChooseAnswerForm() {
                     <label htmlFor={"ans" + i}>{ans}</label>
                 </div>);
             })}
-            <button type="submit">Проголосовать</button>
+            <button type="submit" className="btn default">Проголосовать</button>
         </form>
         {errorMessage && <h6 style={{color: "red"}}>{errorMessage}</h6>}
         {successMessage && <h6 style={{color: "green"}}>{successMessage}</h6>}

@@ -62,15 +62,32 @@ class LoginForm extends React.Component {
         }
 
         return (<div>
-            <form onSubmit={this.handleSubmit}>
-                <h1>Вход</h1>
-                <input type="email" placeholder="Почта" onChange={
-                    (evt) => this.setState({email: evt.target.value})
-                } required />
-                <input type="password" placeholder="Пароль" onChange={
-                    (evt) => this.setState({password: evt.target.value})
-                } required />
-                <button type="submit">Войти</button>
+            <form role="form" onSubmit={this.handleSubmit}>
+                <nav className="navbar navbar-expend-md">
+                    <a className="navbar-brand" href="#">
+                        Голосовалка|Вход
+                    </a>
+                </nav>
+                <div className="btn-group" >
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <input type="email" placeholder="Почта" onChange={
+                                    (evt) => this.setState({email: evt.target.value})
+                                } required />
+                            </div>
+                            <div className="col-md-12">
+                            <input type="password" placeholder="Пароль" onChange={
+                                (evt) => this.setState({password: evt.target.value})
+                            } required />
+                            </div>
+                            <div className="col-md-12">
+                            <button className="btn default" type="submit">Войти</button>
+                            </div>
+                    </div>
+
+                </div>
+                </div>
             </form>
             {this.state.errorMessage && <h6 style={{color: "red"}}>{this.state.errorMessage}</h6>}
         </div>);
