@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.voting.common.User;
@@ -12,6 +13,7 @@ import ru.voting.storage.DatabaseService;
 
 import java.util.Map;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @Controller
 public class LogIn {
     @Autowired

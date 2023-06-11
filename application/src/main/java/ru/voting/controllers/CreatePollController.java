@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,10 @@ import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
 import ru.voting.storage.IdGenerator;
 
+import java.util.HashSet;
+import java.util.Set;
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 public class CreatePollController {
     @Autowired
@@ -110,6 +115,22 @@ public class CreatePollController {
             if (participant.getEmail() == null || participant.getEmail().equals("")) {
                 return "Incorrect participant email";
             }
+        }
+
+        Set<String> answersSet = new HashSet<>();
+        for (PollAnswer ans : newPoll.getAnswers()) {
+            answersSet.add(ans.getAnswerText());
+        }
+        if (answersSet.size() != newPoll.getAnswers().size()) {
+            return "Answers must be unique";
+        }
+
+        Set<String> participantsSet = new HashSet<>();
+        for (Participant p : newPoll.getParticipants()) {
+            participantsSet.add(p.getEmail());
+        }
+        if (participantsSet.size() != newPoll.getParticipants().size()) {
+            return "Participants' emails must be unique";
         }
 
         return null;

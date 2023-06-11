@@ -7,13 +7,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.voting.common.Participant;
 import ru.voting.common.Poll;
-import ru.voting.common.User;
+import ru.voting.common.PollAnswer;
+import ru.voting.controllers.GetPollDataController.pollData;
 import ru.voting.storage.DatabaseService;
 
-import java.util.*;
+import java.util.Arrays;
 
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -22,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class GetInfoTest {
+public class GetPollDataTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -30,38 +31,34 @@ public class GetInfoTest {
     DatabaseService databaseService;
 
     @Test
-    void testGetInfo() throws Exception {
-        User eleazar = new User(
-                "e@mail.ru",
-                "qwerty123",
-                null
-        );
+    void testGetPoll() throws Exception {
+        PollAnswer a = new PollAnswer(null, "a", 0, null);
+        PollAnswer b = new PollAnswer(null, "b", 0, null);
 
-        Poll poll1 = new Poll(
-                "id_1",
-                eleazar.getEmail(),
+        Participant participantA = new Participant("xxx", "e1", false, "unique_id");
+        Participant participantB = new Participant("yyy", "e2", false, "unique_id");
+
+        Poll poll = new Poll(
+                "unique_id",
+                "email",
                 "Be or not to be?",
-                null, null,
+                Arrays.asList(a, b), Arrays.asList(participantA, participantB),
                 0
         );
-        Poll poll2 = new Poll(
-                "id_2",
-                eleazar.getEmail(),
-                "Tea or coffey?",
-                null, null,
-                0
-        );
+        pollData correctResponse = new pollData(poll);
 
-        eleazar.setPolls(Arrays.asList(poll1, poll2));
 
-        when(databaseService.getById(User.class, "e@mail.ru")).thenReturn(eleazar);
 
-        mockMvc.perform(get("/get_info?email=e@mail.ru"))
+        when(databaseService.getById(Participant.class, "xxx")).thenReturn(participantA);
+        when(databaseService.getById(Poll.class, "unique_id")).thenReturn(poll);
+
+        mockMvc.perform(get("/get_poll_data?password=xxx"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(content().string(
-                        new ObjectMapper().writeValueAsString(Arrays.asList(poll1, poll2))
-                ));
+                .andExpect(content().string(new ObjectMapper().writeValueAsString(correctResponse)));
     }
-
 }
+
+
+
+
