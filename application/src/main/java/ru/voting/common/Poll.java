@@ -49,4 +49,9 @@ public class Poll {
     @Getter
     @Setter
     private int answerCounter;
+
+    @Column(name = "result")
+    @Getter
+    @Setter
+    private String result = null;
 }

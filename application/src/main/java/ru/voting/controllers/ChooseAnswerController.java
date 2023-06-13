@@ -68,11 +68,12 @@ public class ChooseAnswerController {
                 }
             }
 
-            databaseService.update(poll);
-
             if (poll.getAnswerCounter() == poll.getParticipants().size()) {
+                poll.setResult(databaseService.getResult(poll));
                 emailService.sendPollResults(poll);
             }
+
+            databaseService.update(poll);
         }
 
         return new ResponseEntity<>(
