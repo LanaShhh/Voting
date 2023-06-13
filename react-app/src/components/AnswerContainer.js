@@ -11,7 +11,7 @@ class AnswerField extends React.Component{
                     <input className="w-100 align-middle answer" placeholder='Вариант ответа' required/>
                 </div>
                 <div className="h-100 container-fluid p-1 col-sm-2">
-                    <button className="btn btn-primary w-100 align-middle" type="button"
+                    <button  id="right_button" className="btn btn-primary w-100 align-middle" type="button"
                             onClick={() => this.props.delete_callback(this.props.id)}>
                         Удалить ответ
                     </button>
@@ -56,7 +56,7 @@ class AnswerContainer extends React.Component {
         return (
             <div className="container mt-2" id="answer-container">
                 {this.state.answers}
-                <button className="btn btn-primary w-100 mt-2" type="button" onClick={this.addAnswer}>
+                <button className="btn default w-100 mt-2 add" type="button" onClick={this.addAnswer}>
                     Добавить вариант ответа
                 </button>
             </div>

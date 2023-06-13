@@ -4,13 +4,21 @@ import { Link } from "react-router-dom";
 class StartPage extends React.Component {
     render() {
         return (<div>
-            <h1>Голосовалка</h1>
-            <Link to={"/login"}>
-                <button type="button">Вход</button>
-            </Link>
-            <Link to={"/register"}>
-                <button type="button">Регистрация</button>
-            </Link>
+            <nav className="navbar navbar-expend-md">
+                <a className="navbar-brand" href="#">
+                        Голосовалка
+                </a>
+            </nav>
+            <div class="btn-group btn-lg" data-toggle='buttons'>
+                <Link to={"/login"}>
+                    <button type="button " className="btn default">Вход</button>
+
+                </Link>
+                <Link to={"/register"}>
+                    <button type="button " className="btn default">Регистрация</button>
+                </Link>
+            </div>
+
         </div>);
     }
 }
