@@ -1,16 +1,14 @@
 package ru.voting.common;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "poll_answers")
+@Table(name = "poll_answers",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"answer_text", "poll_id"})})
 @NoArgsConstructor
 @AllArgsConstructor
 public class PollAnswer {
