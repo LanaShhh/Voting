@@ -10,6 +10,7 @@ class PollData extends React.Component {
             <p>статус: {
                 this.is_finished ? "завершён" : "в процессе"
             }</p>
+            {this.is_finished && <p>результат: {this.props.poll["result"]}</p>}
         </div>);
     }
 }
