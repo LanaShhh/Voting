@@ -1,30 +1,33 @@
 # To run use command "docker-compose --env-file voting.env up"
 version: '3.8'
 services:
-  spring-boot-app:
+  backend:
     image: "voting:0.0.1"
     container_name: "spring-boot-app"
-    build: 
+    build:
       context: .
       dockerfile: application/Dockerfile
       tags:
         - "voting:0.0.1"
     ports:
-      - "${APP_PORT}:8080"
+      - "8080:8080"
     env_file: "voting.env"
 
-  postgres:
+  db:
     image: "postgres:15.3"
     container_name: "postgres"
+    environment:
+      DB_PORT: 5432
     ports:
-      - "${DB_PORT}:5432"
+      - "5432:5432"
     env_file: "voting.env"
 
-  react-app:
+  frontend:
     build: ./react-app
     container_name: "react-app"
+    environment:
+      REACT_APP_BACKEND_PORT: 8080
     ports:
-      - "${REACT_APP_PORT}:3000"
-    env_file: "react-app/frontend.env"
+      - "80:3000"
     stdin_open: true
     tty: true
