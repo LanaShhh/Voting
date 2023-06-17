@@ -9,10 +9,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.voting.common.Poll;
 import ru.voting.common.User;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = Constants.frontendUrl)
 @RestController
 public class Register {
     @Autowired

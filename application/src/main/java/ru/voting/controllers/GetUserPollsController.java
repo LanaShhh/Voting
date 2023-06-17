@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import ru.voting.common.User;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = Constants.frontendUrl)
 @RestController
 public class GetUserPollsController {
     @Autowired

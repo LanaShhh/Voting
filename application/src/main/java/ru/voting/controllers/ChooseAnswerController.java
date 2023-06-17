@@ -11,8 +11,9 @@ import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = Constants.frontendUrl)
 @RestController
 public class ChooseAnswerController {
     @Autowired

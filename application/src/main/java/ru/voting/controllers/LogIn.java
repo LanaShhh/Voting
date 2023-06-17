@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import ru.voting.common.User;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
 import java.util.Map;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = Constants.frontendUrl)
 @Controller
 public class LogIn {
     @Autowired
