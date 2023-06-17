@@ -43,7 +43,8 @@ public class GetPollDataTest {
                 "email",
                 "Be or not to be?",
                 Arrays.asList(a, b), Arrays.asList(participantA, participantB),
-                0
+                0,
+                null
         );
         pollData correctResponse = new pollData(poll);
 

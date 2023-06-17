@@ -49,7 +49,8 @@ public class ChooseAnswerTest {
                 "e@mail.ru",
                 "Be or not to be?",
                 Arrays.asList(ans1, ans2), Arrays.asList(participant),
-                0
+                0,
+                null
         );
 
         ans1.setAnswerText("one");
