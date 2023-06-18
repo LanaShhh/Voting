@@ -57,7 +57,7 @@ export default function ChooseAnswerForm() {
     return (<div>
         <nav className="navbar navbar-expend-md">
             <a className="navbar-brand">
-                Голосовалка|Прохождение опроса
+                Голосовалка | Прохождение опроса
             </a>
         </nav>
         <form onSubmit={handleSubmit}>
@@ -65,7 +65,7 @@ export default function ChooseAnswerForm() {
             {answers.map((ans, i) => {
                 return (<div id="rad" key={i}>
 
-                        <input class="form-check-input" type="radio" id={"ans" + i} name="answer" value={"answer" + i} onChange={
+                        <input className="form-check-input" type="radio" id={"ans" + i} name="answer" value={"answer" + i} onChange={
                         () => setChosenAnswer(ans)
                     } required />
                     <label htmlFor={"ans" + i}>{ans}</label>

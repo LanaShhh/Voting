@@ -9,7 +9,7 @@ class StartPage extends React.Component {
                         Голосовалка
                 </a>
             </nav>
-            <div class="btn-group btn-lg" data-toggle='buttons'>
+            <div className="btn-group btn-lg" data-toggle='buttons'>
                 <Link to={"/login"}>
                     <button type="button " className="btn default">Вход</button>
 

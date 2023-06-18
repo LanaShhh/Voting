@@ -70,7 +70,7 @@ class RegistrationForm extends React.Component {
         return (<div>
             <nav className="navbar navbar-expend-md">
                 <a className="navbar-brand" href="#">
-                    Голосовалка|Регистрация
+                    Голосовалка | Регистрация
                 </a>
             </nav>
             <form onSubmit={this.handleSubmit}>
@@ -79,12 +79,12 @@ class RegistrationForm extends React.Component {
                 <div className="container">
                     <div className="row">
                         <div className="col-md-12">
-                        <input type="email" placeholder="Почта" onChange={
+                        <input type="email" placeholder="Почта" style={{marginBottom: "10px"}} onChange={
                             (evt) => this.setState({email: evt.target.value})
                         } required />
                         </div>
                         <div className="col-md-12">
-                        <input type="password" placeholder="Пароль" onChange={
+                        <input type="password" placeholder="Пароль" style={{marginBottom: "10px"}} onChange={
                             (evt) => this.setState({password: evt.target.value})
                         } required />
                         </div>

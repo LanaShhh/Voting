@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, {useEffect, useState} from "react";
+import {Link, useLocation, Navigate} from "react-router-dom";
 import http from "../http-common";
 import PollData from "./PollData";
 import translateToRussian from "../translation";
 
 export default function Account() {
-    const { userEmail } = useLocation().state;
+    const locationState = useLocation().state;
+
     const [userPolls, setUserPolls] = useState([]);
     const [errorMessage, setErrorMessage] = useState("");
 
@@ -13,6 +14,7 @@ export default function Account() {
         http.get("/get_user_polls?email=" + email).then(
             (res) => {
                 setUserPolls(res.data);
+                setErrorMessage("");
             }
         ).catch(
             (err) => {
@@ -22,13 +24,22 @@ export default function Account() {
     }
 
     useEffect(() => {
-        getPolls(userEmail);
-    }, [userEmail]);
+        if (locationState) {
+            getPolls(locationState.userEmail);
+        }
+    }, [locationState]);
+
+    if (!locationState) {
+        // user unregistered
+        return (
+            <Navigate to="/login" />
+        );
+    }
 
     return (<div>
         <nav className="navbar navbar-expend-md">
             <a className="navbar-brand">
-                Голосовалка|Личный кабинет {userEmail}
+                Голосовалка | Личный кабинет {locationState.userEmail}
             </a>
         </nav>
         {userPolls.length > 0 && <h1>Мои опросы</h1>}
@@ -39,7 +50,7 @@ export default function Account() {
             </div>);
         })}
         <aside>
-            <Link to="/create_poll" state={{userEmail: userEmail}}>
+            <Link to="/create_poll" state={{userEmail: locationState.userEmail}}>
                 <button type="button " className="btn default">Создать новый опрос</button>
             </Link>
         </aside>

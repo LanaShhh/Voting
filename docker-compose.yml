@@ -7,8 +7,6 @@ services:
     build:
       context: .
       dockerfile: application/Dockerfile
-      tags:
-        - "voting:0.0.1"
     ports:
       - "8080:8080"
     env_file: "voting.env"
@@ -16,8 +14,6 @@ services:
   db:
     image: "postgres:15.3"
     container_name: "postgres"
-    environment:
-      DB_PORT: 5432
     ports:
       - "5432:5432"
     env_file: "voting.env"
@@ -28,6 +24,6 @@ services:
     environment:
       REACT_APP_BACKEND_PORT: 8080
     ports:
-      - "80:3000"
+      - "3000:3000"
     stdin_open: true
     tty: true
