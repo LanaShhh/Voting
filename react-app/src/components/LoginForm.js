@@ -65,14 +65,14 @@ class LoginForm extends React.Component {
             <form role="form" onSubmit={this.handleSubmit}>
                 <nav className="navbar navbar-expend-md">
                     <a className="navbar-brand" href="#">
-                        Голосовалка|Вход
+                        Голосовалка | Вход
                     </a>
                 </nav>
                 <div className="btn-group" >
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <input type="email" placeholder="Почта" onChange={
+                    <div className="container">
+                        <div className="row">
+                            <div className="col-md-12">
+                                <input type="email" placeholder="Почта" style={{marginBottom: "10px"}} onChange={
                                     (evt) => this.setState({email: evt.target.value})
                                 } required />
                             </div>

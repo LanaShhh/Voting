@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class GetPollDataController {
     @Autowired

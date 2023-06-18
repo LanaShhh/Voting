@@ -42,14 +42,16 @@ public class GetUserPollsTest {
                 eleazar.getEmail(),
                 "Be or not to be?",
                 null, null,
-                0
+                0,
+                null
         );
         Poll poll2 = new Poll(
                 "id_2",
                 eleazar.getEmail(),
                 "Tea or coffey?",
                 null, null,
-                0
+                0,
+                null
         );
 
         eleazar.setPolls(Arrays.asList(poll1, poll2));

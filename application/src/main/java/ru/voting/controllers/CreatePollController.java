@@ -15,11 +15,12 @@ import ru.voting.common.User;
 import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
 import ru.voting.storage.IdGenerator;
+import ru.voting.utility.Constants;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class CreatePollController {
     @Autowired

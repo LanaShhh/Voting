@@ -11,8 +11,9 @@ import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
+import ru.voting.utility.Constants;
 
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class ChooseAnswerController {
     @Autowired
@@ -67,6 +68,8 @@ public class ChooseAnswerController {
                     break;
                 }
             }
+
+            databaseService.update(poll);
 
             if (poll.getAnswerCounter() == poll.getParticipants().size()) {
                 poll.setResult(databaseService.getResult(poll));

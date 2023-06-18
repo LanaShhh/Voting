@@ -50,15 +50,19 @@ public class DatabaseService {
     public String getResult(Poll poll) {
         Session session = entityManagerFactory.openSession();
         session.beginTransaction();
+        String sqlFindMax = String.format(
+                "SELECT MAX(counter)\n" +
+                "FROM poll_answers\n" +
+                "WHERE poll_id = '%s' ;", poll.getPollId());
+        int maxCounter = (int) session.createNativeQuery(sqlFindMax).list().get(0);
+
         String sql = String.format(
                 "SELECT answer_text\n" +
                 "FROM poll_answers\n" +
-                "WHERE poll_id = '%s'\n" +
-                "order by counter desc\n" +
-                "limit 1;", poll.getPollId());
-        String answer = session.createNativeQuery(sql).list().get(0).toString();
+                "WHERE poll_id = '%s' AND counter = %d ;", poll.getPollId(), maxCounter);
+        List<String> answers = session.createNativeQuery(sql).list();
         session.getTransaction().commit();
         session.close();
-        return answer;
+        return String.join(", ", answers);
     }
 }

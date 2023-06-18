@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { useLocation, Navigate } from "react-router-dom";
 import http from "../http-common";
 import AnswerContainer from "./AnswerContainer";
@@ -9,10 +9,10 @@ import checkOnlySpaces from "../check_format_functions/check-only-spaces";
 import translateToRussian from "../translation";
 
 export default function CreatePollForm() {
-    const { userEmail } = useLocation().state;
+    const locationState = useLocation().state;
+
     const [submitted, setSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
-
     function isPollCorrect(answer_elements, participant_elements, question_element) {
         if (!checkLength(question_element.value, 500)) {
             setErrorMessage("Ошибка: длина вопроса не может превышать 500 символов");
@@ -21,6 +21,11 @@ export default function CreatePollForm() {
 
         if (!checkOnlySpaces(question_element.value)) {
             setErrorMessage("Ошибка: вопрос не может состоять из одних пробелов");
+            return false;
+        }
+
+        if (answer_elements.length > 100) {
+            setErrorMessage("Ошибка: вариантов ответа не может быть больше 100");
             return false;
         }
 
@@ -34,6 +39,11 @@ export default function CreatePollForm() {
                 setErrorMessage("Ошибка: в каждом из вариантов ответа должны быть непробельные символы");
                 return false;
             }
+        }
+
+        if (participant_elements.length > 120) {
+            setErrorMessage("Ошибка: участников не может быть больше 120");
+            return false;
         }
 
         for (let el of participant_elements) {
@@ -59,7 +69,7 @@ export default function CreatePollForm() {
         }
 
         let newPoll = {
-            creatorEmail: userEmail,
+            creatorEmail: locationState.userEmail,
             question: question_element.value,
             answers: Array.from(answer_elements, x => { return {answerText: x.value} }),
             participants: Array.from(participant_elements, x => { return {email: x.value} })
@@ -75,9 +85,16 @@ export default function CreatePollForm() {
         );
     }
 
+    if (!locationState) {
+        // user unregistered
+        return (
+            <Navigate to="/login" />
+        );
+    }
+
     if (submitted) {
         return (
-            <Navigate to="/account" state={{userEmail: userEmail}} />
+            <Navigate to="/account" state={{userEmail: locationState.userEmail}} />
         );
     }
 
@@ -85,7 +102,7 @@ export default function CreatePollForm() {
         <div className="container pr-5 pl-5 pt-1">
             <form onSubmit={handleSubmit}>
                 <h1>Новый опрос</h1>
-                <div class="container-fluid">
+                <div className="container-fluid">
                     <div className="row">
                         <div className="container-fluid p-1 col-sm-8">
                             <input id="question" className="w-100 align-middlef fs-3" placeholder='Ваш вопрос' required/>
