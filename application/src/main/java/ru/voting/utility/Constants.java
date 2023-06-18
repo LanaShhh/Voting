@@ -5,5 +5,5 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Constants {
-    static public final String frontendProdUrl = "http://frontend:80";
+    static public final String frontendProdUrl = "http://localhost:3000";
 }
