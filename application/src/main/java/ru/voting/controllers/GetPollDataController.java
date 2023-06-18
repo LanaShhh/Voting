@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@CrossOrigin(origins = Constants.frontendUrl)
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class GetPollDataController {
     @Autowired

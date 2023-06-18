@@ -13,7 +13,7 @@ import ru.voting.emails.EmailService;
 import ru.voting.storage.DatabaseService;
 import ru.voting.utility.Constants;
 
-@CrossOrigin(origins = Constants.frontendUrl)
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class ChooseAnswerController {
     @Autowired

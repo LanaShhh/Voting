@@ -13,7 +13,7 @@ import ru.voting.utility.Constants;
 
 import java.util.Map;
 
-@CrossOrigin(origins = Constants.frontendUrl)
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class Register {
     @Autowired

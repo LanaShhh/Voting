@@ -20,7 +20,7 @@ import ru.voting.utility.Constants;
 import java.util.HashSet;
 import java.util.Set;
 
-@CrossOrigin(origins = Constants.frontendUrl)
+@CrossOrigin(origins = {"http://localhost:3000", Constants.frontendProdUrl})
 @RestController
 public class CreatePollController {
     @Autowired
