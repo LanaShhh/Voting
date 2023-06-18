@@ -34,7 +34,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: lerabulanova22/voting
-        dockerfile: LanaShhh/Voting/application/Dockerfile
+        dockerfile: ./application/Dockerfile
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
@@ -44,7 +44,7 @@ jobs:
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
         image: lerabulanova22/voting
-        dockerfile: LanaShhh/Voting/react-app/Dockerfile
+        dockerfile: ./react-app/Dockerfile
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
