@@ -1,28 +1,53 @@
 package ru.voting.emails;
 
-import ch.qos.logback.core.joran.sanity.Pair;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 
-import java.util.Queue;
+import java.util.Properties;
 
-@Service
+@Component
+@Slf4j
 public class EmailService {
-    private Queue<Pair<String, String>> emailQueue;
-    private String serviceEmail;
+    private final JavaMailSender mailSender;
+    private final String sender;
 
-    private boolean sendEmail(Pair<String, String> email) {
-        return true;
+    public EmailService() {
+        sender = System.getenv("EMAIL");
+        String emailPassword = System.getenv("EMAIL_PASSWORD");
+
+        JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
+        mailSender.setHost("smtp.yandex.ru");
+        mailSender.setPort(465);
+
+        mailSender.setUsername(sender);
+        mailSender.setPassword(emailPassword);
+
+        Properties props = mailSender.getJavaMailProperties();
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.ssl.enable", "true");
+
+        this.mailSender = mailSender;
     }
 
-    public void sendMessages(String email, Participant participant) {
-        System.out.println("email service got request:");
-        System.out.println(email + " " + participant.getPassword());
+    public void sendMessage(String to, String subject, String text) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setFrom(sender);
+        message.setTo(to);
+        message.setSubject(subject);
+        message.setText(text);
+        try {
+            mailSender.send(message);
+        } catch (MailException e) {
+            log.error("Can't send email to {}: {}", to, e.getMessage());
+        }
     }
 
-    public void sendPollResults(Poll poll) {
-        System.out.println("send result to " + poll.getCreatorEmail());
-        System.out.println("poll " + poll.getPollId());
-    }
 }

@@ -13,6 +13,7 @@ import ru.voting.common.Poll;
 import ru.voting.common.PollAnswer;
 import ru.voting.common.User;
 import ru.voting.emails.EmailService;
+import ru.voting.emails.PollNotifier;
 import ru.voting.storage.DatabaseService;
 import ru.voting.storage.IdGenerator;
 import ru.voting.utility.Constants;
@@ -31,6 +32,9 @@ public class CreatePollController {
 
     @Autowired
     private DatabaseService databaseService;
+
+    @Autowired
+    private PollNotifier pollNotifier;
 
     @PostMapping(
             value = "/create_poll",
@@ -79,11 +83,7 @@ public class CreatePollController {
             databaseService.add(newPoll);
         }
 
-        // Send emails after everything is ok
-        // TODO: add checking email format
-        for (Participant participant : newPoll.getParticipants()) {
-            emailService.sendMessages(participant.getEmail(), participant);
-        }
+        pollNotifier.notifyPollParticipants(newPoll);
 
         return new ResponseEntity<>(
                 "Poll was created successfully",

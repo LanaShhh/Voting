@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ru.voting.common.Participant;
 import ru.voting.common.Poll;
 import ru.voting.emails.EmailService;
+import ru.voting.emails.PollNotifier;
 import ru.voting.storage.DatabaseService;
 import ru.voting.utility.Constants;
 
@@ -20,7 +21,7 @@ public class ChooseAnswerController {
     private DatabaseService databaseService;
 
     @Autowired
-    private EmailService emailService;
+    private PollNotifier pollNotifier;
 
     @PutMapping(value = "/choose_answer")
     private ResponseEntity<String> chooseAnswer(@RequestParam String password, @RequestParam String answer) {
@@ -73,7 +74,7 @@ public class ChooseAnswerController {
 
             if (poll.getAnswerCounter() == poll.getParticipants().size()) {
                 poll.setResult(databaseService.getResult(poll));
-                emailService.sendPollResults(poll);
+                pollNotifier.notifyPollClosing(poll);
             }
 
             databaseService.update(poll);
