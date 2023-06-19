@@ -46,7 +46,7 @@ jobs:
       with:
         image: lerabulanova22/voting
         dockerfile: ./react-app/Dockerfile
-        context: ./react-app
+        working-directory: ./react-app
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
