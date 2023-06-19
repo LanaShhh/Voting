@@ -10,9 +10,10 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["**"]
   pull_request:
     branches: [ "main" ]
+
 
 jobs:
   build:
@@ -43,8 +44,9 @@ jobs:
     - name: Build and Push Docker Image for Frontend
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: lerabulanova22/voting
+        image: lerabulanova22/react-app
         dockerfile: ./react-app/Dockerfile
+        directory: ./react-app
         tags: latest
         registry: docker.io
         username: ${{ secrets.DOCKER_USERNAME }}
