@@ -68,7 +68,7 @@ export default function ChooseAnswerForm() {
                         <input className="form-check-input" type="radio" id={"ans" + i} name="answer" value={"answer" + i} onChange={
                         () => setChosenAnswer(ans)
                     } required />
-                    <label htmlFor={"ans" + i}>{ans}</label>
+                    <label htmlFor={"ans" + i} style={{marginLeft: "5px"}}>{ans}</label>
                 </div>);
             })}
 
