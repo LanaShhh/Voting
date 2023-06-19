@@ -39,7 +39,7 @@ public class EmailService {
 
     public void sendMessage(String to, String subject, String text) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("dppetrov@edu.hse.ru");
+        message.setFrom(sender);
         message.setTo(to);
         message.setSubject(subject);
         message.setText(text);

@@ -14,7 +14,7 @@ public class PollNotifier {
     private final static String INVITE_SUBJECT = "Вас пригласили пройти опрос";
     private final static String INVITE_TEXT_PATTERN = "Вас пригласил %s пройти опрос. Ваша персональная ссылка: http://localhost:3000/choose_answer?password=%s";
     private final static String POLL_CLOSING_SUBJECT_PATTERN = "Опрос \"%s\" завершен";
-    private final static String POLL_CLOSING_TEXT_PATTERN = "Ваш опрос \"%s\" пройден всеми участниками";
+    private final static String POLL_CLOSING_TEXT_PATTERN = "Ваш опрос \"%s\" пройден всеми участниками. Результат: %s";
 
     public void notifyPollParticipants(Poll poll) {
         for (Participant participant : poll.getParticipants()) {
@@ -25,7 +25,7 @@ public class PollNotifier {
 
     public void notifyPollClosing(Poll poll) {
         String subject = POLL_CLOSING_SUBJECT_PATTERN.formatted(poll.getQuestion());
-        String text = POLL_CLOSING_TEXT_PATTERN.formatted(poll.getQuestion());
+        String text = POLL_CLOSING_TEXT_PATTERN.formatted(poll.getQuestion(), poll.getResult());
         emailService.sendMessage(poll.getCreatorEmail(), subject, text);
     }
 }
