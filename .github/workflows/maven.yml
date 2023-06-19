@@ -34,7 +34,7 @@ jobs:
     - name: Build and Push Docker Image for Backend
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: lerabulanova22/voting
+        image: lerabulanova22/voting-backend
         dockerfile: ./application/Dockerfile
         tags: latest
         registry: docker.io
@@ -44,7 +44,7 @@ jobs:
     - name: Build and Push Docker Image for Frontend
       uses: mr-smithers-excellent/docker-build-push@v6
       with:
-        image: lerabulanova22/voting
+        image: lerabulanova22/voting-frontend
         dockerfile: ./react-app/Dockerfile
         directory: ./react-app
         tags: latest
