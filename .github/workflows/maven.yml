@@ -29,25 +29,5 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B package --file ./application/pom.xml -DskipTests 
+      run: mvn -B package --file ./application/pom.xml 
     
-    - name: Build and Push Docker Image for Backend
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: lerabulanova22/voting-backend
-        dockerfile: ./application/Dockerfile
-        tags: latest
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-        
-    - name: Build and Push Docker Image for Frontend
-      uses: mr-smithers-excellent/docker-build-push@v6
-      with:
-        image: lerabulanova22/voting-frontend
-        dockerfile: ./react-app/Dockerfile
-        directory: ./react-app
-        tags: latest
-        registry: docker.io
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
