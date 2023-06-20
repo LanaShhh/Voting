@@ -2,7 +2,7 @@
 version: '3.8'
 services:
   backend:
-    image: "voting:0.0.1"
+    image: "lerabulanova22/voting"
     container_name: "spring-boot-app"
     build:
       context: .
@@ -13,7 +13,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
 
 
   db:
@@ -30,10 +29,10 @@ services:
 
 
   frontend:
+    image: "lerabulanova22/react-app"
     build: ./react-app
     container_name: "react-app"
     environment:
       REACT_APP_BACKEND_URL: http://localhost:8080
     ports:
       - "3000:3000"
-
