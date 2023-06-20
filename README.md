@@ -3,8 +3,6 @@
 ## Запуск
 Скачать к себе файлы docker-compose.yml и voting.env. В voting.env добавить переменные окружения EMAIL, EMAIL_PASSWORD - письма будут отправляться с этого адреса. После этого выполнить в терминале:
 
-```docker-compose build```
-
 ```docker-compose up```
 
 ## Описание
